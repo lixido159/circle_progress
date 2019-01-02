@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+  >
+
+   <com.example.a1.circleprogress.CircleProgressBar
+       android:layout_width="48dp"
+       android:layout_height="48dp"
+       app:color_foreground="@color/colorPrimary"
+       app:color_background="@color/colorAccent"
+       app:color_text="@android:color/black"
+       app:text_inside="98%"
+       android:id="@+id/bar"
+       android:layout_margin="20dp"
+       android:layout_centerInParent="true"/>
+
+</RelativeLayout>
