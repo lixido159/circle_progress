@@ -20,6 +20,7 @@ public class CircleProgressBar extends View {
     private int strokeWidth;//圆宽度
     private int circleBackgroundColor;//圆进度底部颜色
     private int circleForegroundColor;//进度加载颜色
+    private int textBackgroundColor;
     private int textColor;
     private int textSize;//字体大小
     private int duration;//转完一圈需要的时间
@@ -44,9 +45,10 @@ public class CircleProgressBar extends View {
 
 
         scale=a.getInt(R.styleable.CircleProgressBar_scale,6);
-        circleBackgroundColor=a.getColor(R.styleable.CircleProgressBar_color_background,Color.rgb(155,155,155));
-        circleForegroundColor=a.getColor(R.styleable.CircleProgressBar_color_foreground,Color.RED);
-        textColor=a.getColor(R.styleable.CircleProgressBar_color_background,Color.rgb(155,155,155));
+        circleBackgroundColor=a.getColor(R.styleable.CircleProgressBar_color_background,Color.TRANSPARENT);
+        circleForegroundColor=a.getColor(R.styleable.CircleProgressBar_color_foreground,Color.GREEN);
+        textColor=a.getColor(R.styleable.CircleProgressBar_color_background,Color.WHITE);
+        textBackgroundColor=a.getColor(R.styleable.CircleProgressBar_color_text_background,Color.GRAY);
         textSize= (int) a.getDimension(R.styleable.CircleProgressBar_text_size,0);
         text=a.getString(R.styleable.CircleProgressBar_text_inside);
         if (text==null)
@@ -60,25 +62,23 @@ public class CircleProgressBar extends View {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         int widthMode=MeasureSpec.getMode(widthMeasureSpec);
         int heightMode=MeasureSpec.getMode(heightMeasureSpec);
-        if (widthMode==MeasureSpec.AT_MOST||heightMode==MeasureSpec.AT_MOST){//如果宽高有一个是wrap_content
-            int defaultSpec=MeasureSpec.makeMeasureSpec(dip2px(getContext(),defaultSize),MeasureSpec.EXACTLY);
+        if (widthMode==MeasureSpec.AT_MOST||heightMode==MeasureSpec.AT_MOST){//如果宽高是wrap_content
+            if (widthMode==MeasureSpec.AT_MOST)
+                widthMeasureSpec=MeasureSpec.makeMeasureSpec(dip2px(getContext(),defaultSize),MeasureSpec.AT_MOST);
+            if (heightMode==MeasureSpec.AT_MOST)
+                heightMeasureSpec=MeasureSpec.makeMeasureSpec(dip2px(getContext(),defaultSize),MeasureSpec.AT_MOST);;
             radius=dip2px(getContext(),defaultSize)/2;
-            if (textSize==0)
-                textSize=radius*3/4;
-            strokeWidth=radius/scale;
-            radius=radius-strokeWidth/2;
-
-            super.onMeasure(defaultSpec, defaultSpec);
         }else {
             int width=MeasureSpec.getSize(widthMeasureSpec);
             int height=MeasureSpec.getSize(heightMeasureSpec);
             radius=width>height?height/2:width/2;
-            if (textSize==0)
-                textSize=radius*3/4;
-            strokeWidth=radius/scale;
-            radius=radius-strokeWidth/2;
-            super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+
         }
+        if (textSize==0)
+            textSize=radius*7/11;
+        strokeWidth=radius/scale;
+        radius=radius-strokeWidth/2;
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
     }
 
@@ -89,12 +89,16 @@ public class CircleProgressBar extends View {
         paint.setColor(circleBackgroundColor);
         paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeWidth(strokeWidth);
+        paint.setAntiAlias(true);
 
         canvas.drawCircle(getWidth()/2,getHeight()/2,radius,paint);
         paint.setColor(circleForegroundColor);
         RectF oval=new RectF(getWidth()/2-radius,getHeight()/2-radius,getWidth()/2+radius,getHeight()/2+radius);
         canvas.drawArc(oval,-90,progress,false,paint);
 
+        paint.setStyle(Paint.Style.FILL);
+        paint.setColor(textBackgroundColor);
+        canvas.drawCircle(getWidth()/2,getHeight()/2,radius-strokeWidth/2,paint);
 
         Rect textRect=new Rect();
         paint.setTextSize(textSize);
@@ -224,5 +228,13 @@ public class CircleProgressBar extends View {
 
     public void setInterpolator(Interpolator interpolator) {
         this.interpolator = interpolator;
+    }
+
+    public int getTextBackgroundColor() {
+        return textBackgroundColor;
+    }
+
+    public void setTextBackgroundColor(int textBackgroundColor) {
+        this.textBackgroundColor = textBackgroundColor;
     }
 }
