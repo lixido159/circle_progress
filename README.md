@@ -3,6 +3,9 @@
 
 
 ## 使用方式
+
+        implementation 'com.github.lixido159:circle_progress:Tag'
+
 1.在布局文件添加CircleProgressBar
 
 2.xml属性设置
