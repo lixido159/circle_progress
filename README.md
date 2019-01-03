@@ -4,7 +4,7 @@
 
 ## 使用方式
 
-        implementation 'com.github.lixido159:circle_progress:Tag'
+        implementation 'com.github.lixido159:circle_progress:v1.1'
 
 1.在布局文件添加CircleProgressBar
 
