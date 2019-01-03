@@ -115,7 +115,7 @@ public class CircleProgressBar extends View {
         float scale = context.getResources().getDisplayMetrics().density;
         return (int) (dpValue * scale + 0.5f);
     }
-    public void startAnim(int startProgress) {
+    public void startAnim(int startProgress,Long milliSeconds) {
         ValueAnimator animator = ValueAnimator.ofInt(startProgress, 360);
         hasStart=false;
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
@@ -139,6 +139,7 @@ public class CircleProgressBar extends View {
         });
         animator.setDuration(duration);
         animator.setInterpolator(interpolator);   //动画匀速
+        animator.setStartDelay(milliSeconds);
         animator.start();
     }
     public void setOnRotationListener(RotationListener rotationListener){
